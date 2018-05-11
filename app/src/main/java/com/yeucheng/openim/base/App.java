@@ -1,9 +1,12 @@
 package com.yeucheng.openim.base;
 
 import android.app.Application;
+import android.os.Environment;
 
 import com.yeucheng.openim.util.LogUtils;
 import com.yeucheng.openim.util.Threadutils;
+import com.yeucheng.openim.widget.CrashHandler;
+
 import org.litepal.LitePal;
 
 
@@ -23,6 +26,8 @@ public class App extends Application {
         LogUtils.setDeBug(true);
         //链接XMPPServer
         connectXmppServer();
+        CrashHandler crashHandler=CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
     }
 
     private void connectXmppServer() {
@@ -32,5 +37,8 @@ public class App extends Application {
                 XmppConnection.getConnection();
             }
         });
+    }
+    public static boolean hasSDcard() {
+        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
 }
